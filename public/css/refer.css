@@ -1,0 +1,59 @@
+.contentBox {
+    position: relative;
+    width: 1000px;
+    margin: 45px auto;
+    border: 1px solid #c1c1c1;
+}
+
+.bug {
+    padding: 15px;
+}
+
+label {
+    display: block;
+    margin: 15px 0;
+}
+
+label span {
+    display: inline-block;
+    width: 90px;
+    text-align: right;
+}
+
+textarea {
+    width: 580px;
+    vertical-align: top;
+}
+
+.submit_btn {
+    width: 60px;
+    height: 28px;
+    margin-left: 90px;
+    margin-top: 25px;
+    background: #108ee9;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    color: #fff;
+    cursor:pointer;
+}
+
+.left_bar {
+    position: absolute;
+    width: 90px;
+    top: 0;
+    left: -95px;
+    border: 1px solid #f58309;
+}
+
+.tabBar_item {
+    height: 40px;
+    line-height: 40px;
+    padding-left: 5px;
+    border-bottom: 1px solid #f58309;
+    cursor: pointer;
+}
+
+.tabBar_item:last-child {
+    border: none;
+}

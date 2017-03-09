@@ -1,0 +1,27 @@
+.contentBox {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.form_box {
+    border: 1px solid #ccc;
+    width: 450px;
+    margin: 20px auto;
+    padding: 15px;
+}
+
+.register_btn {
+    color: #49a9ee;
+}
+
+.register_btn:hover {
+    color: #ef1700;
+}
+
+.login-form-forgot {
+    float: right;
+}
+
+.login-form-button {
+    width: 100%;
+}

@@ -1,0 +1,86 @@
+
+.contentBox {
+    position: relative;
+    width: 1000px;
+    margin: 45px auto;
+    border: 1px solid #c1c1c1;
+}
+
+.search {
+    padding: 25px;
+}
+
+.level, .status {
+    margin-left: 25px;
+}
+
+.search_btn {
+    margin-left: 25px;
+    width: 60px;
+    height: 28px;
+    line-height: 28px;
+    background: #108ee9;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 15px;
+    color: #fff;
+}
+
+table {
+    width: 980px;
+    margin: 0 auto 20px auto;
+}
+
+table thead tr th {
+    width: 150px;
+    height: 40px;
+    border: 1px solid #ccc;
+}
+
+table thead tr th:nth-child(3) {
+    width: auto;
+}
+
+table tbody tr td {
+    height: 40px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+table tbody tr td:nth-child(3) {
+    padding-left: 10px;
+    text-align: left;
+}
+
+.deal_btn{
+    display: inline-block;
+    width: 36px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    background: #108ee9;
+}
+
+.left_bar {
+    position: absolute;
+    width: 90px;
+    top: 0;
+    left: -95px;
+    border: 1px solid #f58309;
+}
+
+.tabBar_item {
+    height: 40px;
+    line-height: 40px;
+    padding-left: 5px;
+    border-bottom: 1px solid #f58309;
+    cursor: pointer;
+}
+
+.tabBar_item:last-child {
+    border: none;
+}
