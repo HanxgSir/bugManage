@@ -37,8 +37,6 @@ class App extends React.Component {
 
 const requireAuth = (nextState, replace) => {
     let hasLogin = localStorage.hasLogin;
-    let username = localStorage.username;
-    let isLogin = true;
     if (hasLogin == "false") {
         replace({pathname: '/login'})
     }
