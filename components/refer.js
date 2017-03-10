@@ -3,13 +3,16 @@
  */
 import React from 'react';
 import { render } from 'react-dom';
+
 import Modal from 'antd/lib/modal';
 import message from 'antd/lib/message';
 import Select from 'antd/lib/select';
 import Input from 'antd/lib/input';
-
 import Nav from './nav'
+
+import BugsStore from '../store/bugsStore';
 import './refer.css';
+const bugStore = new BugsStore();
 
 const Option = Select.Option;
 const messageCodeStyle = {
@@ -70,21 +73,14 @@ export default class Refer extends React.Component {
         let params = {
             description: this.refs.description.value,
             browser: this.refs.browser.refs.input.value,
-            level: this.state.level
+            level: this.state.level,
+            user: localStorage.username
         };
         Modal.confirm({
             title: "提交bug",
             content: '是否确认提交该bug',
             onOk() {
-                $.post('/refer', params, function (data) {
-                    if (data.status == 0) {
-                        message.success(
-                            <div style={messageCodeStyle}>
-                                提交成功
-                            </div>
-                        );
-                    }
-                })
+                bugStore.addBug('/refer', params, 'POST');
             }
         });
     }

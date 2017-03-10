@@ -1,15 +1,21 @@
 /**
  * Created by Administrator on 2017/2/27.
  */
+
 import React from 'react';
 import { render } from 'react-dom';
+import {observer} from 'mobx-react';
+
+
 import Modal from 'antd/lib/modal';
 import message from 'antd/lib/message';
 import Select from 'antd/lib/select';
 import Input from 'antd/lib/input';
-
 import Nav from './nav';
+
 import './allBugs.css';
+import BugsStore from '../store/bugsStore';
+const bugsStore = new BugsStore();
 
 const Option = Select.Option;
 const messageCodeStyle = {
@@ -20,6 +26,7 @@ const messageCodeStyle = {
     fontWeight: 'bold'
 };
 
+@observer
 export default class AllBugs extends React.Component {
     constructor(props) {
         super(props);
@@ -75,7 +82,7 @@ export default class AllBugs extends React.Component {
                     </thead>
                     <tbody>
 
-                    {this.state.bugs.map(function (bug, index) {
+                    {bugsStore.bugs.length > 0 ? bugsStore.bugs.map(function (bug, index) {
                         let complete = this.complete.bind(this, bug.code, index);
                         return <tr key={"bug"+index}>
                             <td>{bug.code}</td>
@@ -92,8 +99,7 @@ export default class AllBugs extends React.Component {
                                 }
                             </td>
                         </tr>
-                    }.bind(this))}
-
+                    }.bind(this)) : null}
                     </tbody>
                 </table>
             </div>
@@ -124,26 +130,16 @@ export default class AllBugs extends React.Component {
     // 完成
     complete(code, index) {
         let that = this;
+        let params = {
+            code: code,
+            index:index,
+            handler: localStorage.username
+        }
         Modal.confirm({
             title: "完成修改",
             content: '是否确认该问题已修改',
             onOk() {
-                $.post('/completeBug', {code: code}, function (data) {
-                    console.log(data);
-                    if (data.status == 0) {
-                        let bugs = that.state.bugs;
-                        bugs[index].deleted = '1';
-                        bugs[index].handler = data.handler;
-                        that.setState({
-                            bugs: bugs
-                        });
-                        message.success(
-                            <div style={messageCodeStyle}>
-                                bug已处理
-                            </div>
-                        );
-                    }
-                })
+                bugsStore.completeBug('/completeBug', params, 'POST');
             }
         });
     }
@@ -154,13 +150,6 @@ export default class AllBugs extends React.Component {
             level: this.state.level,
             status: this.state.status
         };
-        $.post('/getBugs', params, function (data) {
-            console.log(data);
-            if (data.status == 0) {
-                this.setState({
-                    bugs: data.bugs
-                })
-            }
-        }.bind(this))
+        bugsStore.getBugs('/getBugs', params, 'POST');
     }
 }

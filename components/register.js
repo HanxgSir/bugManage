@@ -14,6 +14,8 @@ import Col from 'antd/lib/col';
 import Button from 'antd/lib/button';
 import Checkbox  from 'antd/lib/checkbox';
 
+import './register.css';
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 class RegisterComponent extends React.Component {

@@ -3,13 +3,15 @@
  */
 import React from 'react';
 import { render } from 'react-dom';
+import { Link } from 'react-router'
+
 import Form from 'antd/lib/form';
 import Icon from 'antd/lib/icon';
 import Input from 'antd/lib/input';
 import Button from 'antd/lib/button';
 import Checkbox  from 'antd/lib/checkbox';
 
-import { Link } from 'react-router'
+import './login.css';
 
 const FormItem = Form.Item;
 class LoginComponent extends React.Component {
@@ -49,7 +51,7 @@ class LoginComponent extends React.Component {
                             <Button type="primary" htmlType="submit" className="login-form-button">
                                 登录
                             </Button>
-                            没有帐号？ <Link to="/register" >快来注册吧!</Link>
+                            没有帐号？ <Link to="register" >快来注册吧!</Link>
                         </FormItem>
                     </Form>
                 </div>
@@ -69,7 +71,11 @@ class LoginComponent extends React.Component {
                 $.post('/login', values, function (data) {
                     console.log(data);
                     if (data.status == 0) {
-                        location.href = "/home"
+                        localStorage.hasLogin = true;
+                        localStorage.username = data.username;
+                        this.props.router.push({
+                            pathname: '/'
+                        })
                     }
                     else {
                         console.log(data);

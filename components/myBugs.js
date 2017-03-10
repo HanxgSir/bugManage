@@ -3,13 +3,17 @@
  */
 import React from 'react';
 import { render } from 'react-dom';
+import {observer} from 'mobx-react';
+
 import Modal from 'antd/lib/modal';
 import message from 'antd/lib/message';
 import Select from 'antd/lib/select';
 import Input from 'antd/lib/input';
 
 import Nav from './nav'
-
+import './myBugs.css'
+import BugsStore from '../store/bugsStore';
+const bugsStore = new BugsStore();
 const Option = Select.Option;
 const messageCodeStyle = {
     width: '300px',
@@ -19,6 +23,7 @@ const messageCodeStyle = {
     fontWeight: 'bold'
 };
 
+@observer
 export default class MyBugs extends React.Component {
     constructor(props) {
         super(props);
@@ -72,7 +77,7 @@ export default class MyBugs extends React.Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.bugs.map(function (bug, index) {
+                    {bugsStore.bugs.map(function (bug, index) {
                         let close = this.close.bind(this, bug.code, index);
                         let delete_bug = this.delete_bug.bind(this, bug.code, index);
                         return <tr key={"bug"+index}>
@@ -123,20 +128,7 @@ export default class MyBugs extends React.Component {
             title: "关闭bug",
             content: '是否确认关闭该问题',
             onOk(){
-                $.post('/closeBug', {code: code}, function (data) {
-                    if (data.status == 0) {
-                        let bugs = that.state.bugs;
-                        bugs[index].deleted = '2';
-                        that.setState({
-                            bugs: bugs
-                        });
-                        message.success(
-                            <div style={messageCodeStyle}>
-                                bug已关闭
-                            </div>
-                        );
-                    }
-                })
+                bugsStore.closeBug('/closeBug', {code: code, index: index}, 'POST');
             }
         })
     }
@@ -148,40 +140,33 @@ export default class MyBugs extends React.Component {
             title: "删除bug",
             content: '是否确认删除该问题',
             onOk(){
-                $.post('/deleteBug', {code: code}, function (data) {
-                    if (data.status == 0) {
-                        let bugs = that.state.bugs;
-                        bugs.slice(index,1);
-                        that.setState({
-                            bugs: bugs
-                        });
-                        message.success(
-                            <div style={messageCodeStyle}>
-                                bug已删除
-                            </div>
-                        );
-                    }
-                })
+                bugsStore.deleteBug('/deleteBug', {code: code, index: index}, 'POST');
+                //$.post('/deleteBug', {code: code}, function (data) {
+                //    if (data.status == 0) {
+                //        let bugs = that.state.bugs;
+                //        bugs.slice(index, 1);
+                //        that.setState({
+                //            bugs: bugs
+                //        });
+                //        message.success(
+                //            <div style={messageCodeStyle}>
+                //                bug已删除
+                //            </div>
+                //        );
+                //    }
+                //})
             }
         })
     }
 
     queryData() {
-        console.log('eee');
         let params = {
             code: this.refs.code.refs.input.value,
             level: this.state.level,
             status: this.state.status,
-            isSelf: true
+            isSelf: true,
+            user: localStorage.username
         };
-        console.log('sss');
-        $.post('/getBugs', params, function (data) {
-            console.log(data);
-            if (data.status == 0) {
-                this.setState({
-                    bugs: data.bugs
-                })
-            }
-        }.bind(this))
+        bugsStore.getBugs('/getBugs', params, 'POST');
     }
 }
