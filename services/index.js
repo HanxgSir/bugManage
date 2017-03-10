@@ -6,5 +6,8 @@ module.exports = function (app) {
         .get(function (req, res) {
             res.render('index');
         });
+    require('./register')(app);
+    require('./login')(app);
     require('./handelBugs')(app);
+    require('./refer')(app);
 };

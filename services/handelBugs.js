@@ -1,4 +1,3 @@
-
 module.exports = function (app) {
     // 查询bugs
     app.post('/getBugs', function (req, res) {
@@ -18,7 +17,7 @@ module.exports = function (app) {
             filter.deleted = status;
         }
         if (isSelf) {
-            filter.user = req.session.user
+            filter.user = req.body.user
         }
         bug.find(filter, function (error, docs) {
             res.send({bugs: docs, status: '0'});
@@ -29,8 +28,12 @@ module.exports = function (app) {
     app.post('/completeBug', function (req, res) {
         let bug = global.dbHelper.getModel('bug');
         let code = req.body.code;
-        bug.update({code: code}, {deleted: '1', handler: req.session.user}, function (error, docs) {
-            res.send({handler: req.session.user, status: '0'});
+        let handler = req.body.handler;
+        bug.update({code: code}, {deleted: '1', handler: handler}, function (error, docs) {
+            if (docs) {
+                res.send({handler: handler, deleted: '1', status: '0'});
+            }
+
         })
     });
 
@@ -39,7 +42,7 @@ module.exports = function (app) {
         let bug = global.dbHelper.getModel('bug');
         let code = req.body.code;
         bug.update({code: code}, {deleted: '2'}, function (error, docs) {
-            res.send({bugs: docs, status: '0'});
+            res.send({deleted: '2', status: '0'});
         })
     });
 
@@ -48,7 +51,7 @@ module.exports = function (app) {
         let bug = global.dbHelper.getModel('bug');
         let code = req.body.code;
         bug.remove({code: code}, function (error, docs) {
-            res.send({bugs: docs, status: '0'});
+            res.send({status: '0'});
         })
     })
 };
