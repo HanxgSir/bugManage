@@ -133,8 +133,7 @@ export default class AllBugs extends React.Component {
         let params = {
             code: code,
             index:index,
-            handler: localStorage.username
-        }
+        };
         Modal.confirm({
             title: "完成修改",
             content: '是否确认该问题已修改',

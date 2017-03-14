@@ -14,7 +14,7 @@
     margin: 15px 0;
 }
 
-label span {
+.bug label span {
     display: inline-block;
     width: 90px;
     text-align: right;
