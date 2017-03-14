@@ -10,6 +10,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const session = require('express-session');
+const moment = require('moment');
+moment.locale('zh-cn');
 global.dbHelper = require('./common/dbHelper.js');
 global.db = mongoose.connect('mongodb://localhost/bugManage');
 db.connection.on('error', function (error) {
@@ -27,12 +29,12 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(session({
-    secret: "secret",
-    resave: true,
-    saveUninitialized: true,
+    secret: (+new Date() + Math.floor(Math.random() * 999999)).toString(36),
+    resave: false,
+    saveUninitialized: false,
     cookie: {
         user: "default",
-        maxAge: 14 * 24 * 60 * 60 * 1000 // 超时时间14天
+        maxAge: 7 * 24 * 60 * 60 * 1000 // 超时时间7天
     }
 }));
 
