@@ -11,8 +11,9 @@ import Modal from 'antd/lib/modal';
 import message from 'antd/lib/message';
 import Select from 'antd/lib/select';
 import Input from 'antd/lib/input';
-import Nav from './nav';
+import Pagination from 'antd/lib/pagination';
 
+import Nav from './nav';
 import './allBugs.css';
 import BugsStore from '../store/bugsStore';
 const bugsStore = new BugsStore();
@@ -33,7 +34,8 @@ export default class AllBugs extends React.Component {
         this.state = {
             level: 0,
             status: -1,
-            bugs: []
+            pageSize: 10,
+            pageIndex: 1
         };
         this.queryData = this.queryData.bind(this);
         this.selectLevel = this.selectLevel.bind(this);
@@ -102,20 +104,31 @@ export default class AllBugs extends React.Component {
                     }.bind(this)) : null}
                     </tbody>
                 </table>
+                <div className="pagination">
+                    <div style={{float: 'right'}}>
+                        <Pagination
+                            defaultCurrent={1} total={this.state.total}
+                            defaultPageSize={30}
+                            onChange={this.onChange}
+                        />
+                    </div>
+                </div>
             </div>
         )
     }
 
     componentDidMount() {
-        this.queryData()
+        this.queryData(this.state.pageIndex, this.state.pageSize)
     }
 
+    // 级别下拉框 onchange
     selectLevel(value) {
         this.setState({
             level: value
         })
     }
 
+    // 状态下拉框onchange
     selectStatus(value) {
         this.setState({
             status: value
@@ -124,30 +137,39 @@ export default class AllBugs extends React.Component {
 
     // 查询
     search() {
-        this.queryData();
+        this.queryData(this.state.pageIndex, this.state.pageSize);
     }
 
     // 完成
     complete(code, index) {
-        let that = this;
         let params = {
             code: code,
-            index:index,
+            index: index
         };
         Modal.confirm({
             title: "完成修改",
             content: '是否确认该问题已修改',
             onOk() {
-                bugsStore.completeBug('/completeBug', params, 'POST');
+                bugsStore.completeBug('/completeBug', params, 'POST').then(function (data) {
+                    if (data.status == 0) {
+                        message.success(
+                            <div style={messageCodeStyle}>
+                                bug已完成处理
+                            </div>
+                        )
+                    }
+                });
             }
         });
     }
 
-    queryData() {
+    queryData(pageIndex, pageSize) {
         let params = {
             code: this.refs.code.refs.input.value,
             level: this.state.level,
-            status: this.state.status
+            status: this.state.status,
+            pageIndex: pageIndex,
+            pageSize: pageSize
         };
         bugsStore.getBugs('/getBugs', params, 'POST');
     }
