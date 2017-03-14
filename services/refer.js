@@ -1,10 +1,9 @@
-
-var moment =  require('moment');
+var moment = require('moment');
 moment.locale('zh-cn');
 module.exports = function (app) {
     app.post('/refer', function (req, res) {
         let Bug = global.dbHelper.getModel('bug');
-        let dt  = moment().format('LLL');
+        let dt = moment().format('LLL');
         let dtc = new Date();
         Bug.create({
             description: req.body.description,
@@ -12,9 +11,9 @@ module.exports = function (app) {
             level: req.body.level,
             user: req.body.user,
             date: dt,
-            code: '' + dtc.getTime() + Math.ceil(Math.random()*10000),
+            code: '' + dtc.getTime() + Math.ceil(Math.random() * 10000),
             handler: '',
-            deleted:0
+            deleted: 0
         }, function (error, doc) {
             if (error) {
                 res.sendStatus(500)

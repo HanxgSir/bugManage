@@ -1,6 +1,11 @@
+var crypto = require('./crypto');
 module.exports = function (app) {
     // 查询bugs
     app.post('/getBugs', function (req, res) {
+        if (crypto.decrypt(req.cookies.hasLogin, 'this is test crypto') != 'bug login is true') {
+            res.send({status: '1', msg: '登录超时'});
+            return;
+        }
         let bug = global.dbHelper.getModel('bug');
         let code = req.body.code;
         let level = req.body.level;
@@ -28,12 +33,10 @@ module.exports = function (app) {
     app.post('/completeBug', function (req, res) {
         let bug = global.dbHelper.getModel('bug');
         let code = req.body.code;
-        let handler = req.body.handler;
-        bug.update({code: code}, {deleted: '1', handler: handler}, function (error, docs) {
+        bug.update({code: code}, {deleted: '1', handler: global.username}, function (error, docs) {
             if (docs) {
-                res.send({handler: handler, deleted: '1', status: '0'});
+                res.send({handler: global.username, deleted: '1', status: '0'});
             }
-
         })
     });
 
