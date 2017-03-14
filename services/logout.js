@@ -5,9 +5,7 @@ module.exports = function (app) {
     app.route('/logout')
         .get(function (req, res) {
             req.session.destroy(function () {
-                console.log('logout');
-                res.clearCookie("user", {});
-                res.cookie("isLogin", "false");
+                res.cookie("hasLogin", "bug login is false");
                 res.redirect("/");
             });
         });

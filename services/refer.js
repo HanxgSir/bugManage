@@ -1,16 +1,22 @@
 var moment = require('moment');
 moment.locale('zh-cn');
 module.exports = function (app) {
+    // 提交bug
     app.post('/refer', function (req, res) {
+        // 获取到bug model
         let Bug = global.dbHelper.getModel('bug');
         let dt = moment().format('LLL');
         let dtc = new Date();
+        // 新增数据
+        // option1: 指定各个字段值
+        // option2: 回调函数
         Bug.create({
             description: req.body.description,
             browser: req.body.browser,
             level: req.body.level,
             user: req.body.user,
-            date: dt,
+            date: dtc,
+            date_text:dt,
             code: '' + dtc.getTime() + Math.ceil(Math.random() * 10000),
             handler: '',
             deleted: 0

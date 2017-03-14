@@ -26,15 +26,15 @@ export default class BugsStore {
     // 处理bug
     completeBug(url, params, method) {
         let that = this;
-        axios({
+        return axios({
             method: method,
             url: url,
             data: params
         }).then(function (response) {
-            console.log(response);
             if (response.data.status == 0) {
                 that.bugs[params.index].deleted = response.data.deleted;
                 that.bugs[params.index].handler = response.data.handler;
+                return response.data;
             }
         }).catch(function (error) {
             return error;
