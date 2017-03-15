@@ -106,6 +106,7 @@ export default class AllBugs extends React.Component {
                     <div style={{float: 'right'}}>
                         <Pagination
                             defaultCurrent={1} total={bugsStore.total}
+                            current={bugsStore.pageIndex}
                             defaultPageSize={bugsStore.pageSize}
                             onChange={this.onChange}
                         />
@@ -135,7 +136,8 @@ export default class AllBugs extends React.Component {
 
     // 查询
     search() {
-        this.queryData(bugsStore.pageIndex, bugsStore.pageSize);
+        bugsStore.pageIndex = 1;
+        this.queryData(1, bugsStore.pageSize);
     }
 
     // 完成
@@ -163,7 +165,6 @@ export default class AllBugs extends React.Component {
 
     //分页器
     onChange(pageNumber) {
-        console.log('pageNumber', pageNumber);
         this.queryData(pageNumber, bugsStore.pageSize);
     }
 

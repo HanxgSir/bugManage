@@ -19,7 +19,6 @@ export default class BugsStore {
             url: url,
             data: params
         }).then(function (response) {
-            console.log(response);
             that.bugs = response.data.bugs;
             that.total = response.data.total;
             that.pageIndex = response.data.pageIndex;

@@ -3,7 +3,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import {observer} from 'mobx-react';
 import { Router, Route, Link, hashHistory, browserHistory,IndexRoute, Redirect, IndexLink} from 'react-router'
-
+import 'jquery.cookie';
 // 引入子组件
 import AllBugs from './components/allBugs';
 import Refer from './components/refer';
@@ -40,6 +40,7 @@ class App extends React.Component {
 const requireAuth = (nextState, replace) => {
     let hasLogin = localStorage.hasLogin;
     if (hasLogin == "false") {
+        console.log($.cookie('username'));
         replace({pathname: '/login'})
     }
 };

@@ -11,7 +11,6 @@ export default class Nav extends React.Component {
             current: 'mail'
         };
         this.handleClick = (e) => {
-            console.log('click ', e);
             this.setState({
                 current: e.key
             });
