@@ -80,7 +80,15 @@ export default class Refer extends React.Component {
             title: "提交bug",
             content: '是否确认提交该bug',
             onOk() {
-                bugStore.addBug('/refer', params, 'POST');
+                bugStore.addBug('/refer', params, 'POST').then(function (data) {
+                    if (data.status == 1) {
+                        message.success(
+                            <div style={messageCodeStyle}>
+                                {data.msg}
+                            </div>
+                        )
+                    }
+                });
             }
         });
     }

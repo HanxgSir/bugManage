@@ -6,7 +6,6 @@ import React from 'react';
 import { render } from 'react-dom';
 import {observer} from 'mobx-react';
 
-
 import Modal from 'antd/lib/modal';
 import message from 'antd/lib/message';
 import Select from 'antd/lib/select';
@@ -33,14 +32,13 @@ export default class AllBugs extends React.Component {
         super(props);
         this.state = {
             level: 0,
-            status: -1,
-            pageSize: 10,
-            pageIndex: 1
+            status: -1
         };
         this.queryData = this.queryData.bind(this);
         this.selectLevel = this.selectLevel.bind(this);
         this.selectStatus = this.selectStatus.bind(this);
         this.search = this.search.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
     render() {
@@ -107,8 +105,8 @@ export default class AllBugs extends React.Component {
                 <div className="pagination">
                     <div style={{float: 'right'}}>
                         <Pagination
-                            defaultCurrent={1} total={this.state.total}
-                            defaultPageSize={30}
+                            defaultCurrent={1} total={bugsStore.total}
+                            defaultPageSize={bugsStore.pageSize}
                             onChange={this.onChange}
                         />
                     </div>
@@ -118,7 +116,7 @@ export default class AllBugs extends React.Component {
     }
 
     componentDidMount() {
-        this.queryData(this.state.pageIndex, this.state.pageSize)
+        this.queryData(bugsStore.pageIndex, bugsStore.pageSize)
     }
 
     // 级别下拉框 onchange
@@ -137,7 +135,7 @@ export default class AllBugs extends React.Component {
 
     // 查询
     search() {
-        this.queryData(this.state.pageIndex, this.state.pageSize);
+        this.queryData(bugsStore.pageIndex, bugsStore.pageSize);
     }
 
     // 完成
@@ -161,6 +159,12 @@ export default class AllBugs extends React.Component {
                 });
             }
         });
+    }
+
+    //分页器
+    onChange(pageNumber) {
+        console.log('pageNumber', pageNumber);
+        this.queryData(pageNumber, bugsStore.pageSize);
     }
 
     queryData(pageIndex, pageSize) {

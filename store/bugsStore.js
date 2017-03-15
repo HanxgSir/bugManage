@@ -6,6 +6,9 @@ import {observable, computed, reaction} from 'mobx';
 
 export default class BugsStore {
     @observable bugs = [];
+    @observable total = 0;
+    @observable pageIndex = 1;
+    @observable pageSize = 5;
     // 获取所有bugs
     getBugs(url, params, method) {
         let that = this;
@@ -18,6 +21,9 @@ export default class BugsStore {
         }).then(function (response) {
             console.log(response);
             that.bugs = response.data.bugs;
+            that.total = response.data.total;
+            that.pageIndex = response.data.pageIndex;
+            that.pageSize = response.data.pageSize;
         }).catch(function (error) {
             return error;
         });
@@ -34,8 +40,8 @@ export default class BugsStore {
             if (response.data.status == 0) {
                 that.bugs[params.index].deleted = response.data.deleted;
                 that.bugs[params.index].handler = response.data.handler;
-                return response.data;
             }
+            return response.data;
         }).catch(function (error) {
             return error;
         });
@@ -76,7 +82,7 @@ export default class BugsStore {
 
     // 提交bug
     addBug(url, params, method) {
-        axios({
+        return axios({
             method: method,
             url: url,
             data: params
@@ -85,6 +91,7 @@ export default class BugsStore {
             if (response.data.status == 0) {
                 this.bugs = response.data.bugs;
             }
+            return response.data;
         }).catch(function (error) {
             return error;
         });

@@ -14,3 +14,16 @@ header {
     width: 60px;
     text-align: center;
 }
+
+.contentBox {
+    position: relative;
+    width: 1000px;
+    margin: 0 auto 45px auto;
+    border: 1px solid #c1c1c1;
+}
+
+.pagination {
+    overflow: hidden;
+    margin-bottom: 20px;
+    margin-right: 15px;
+}

@@ -11,6 +11,8 @@ import MyBugs from './components/myBugs';
 import Login from './components/login';
 import Register from './components/register';
 
+import './components/common.css'
+
 @observer
 class App extends React.Component {
     constructor(props) {

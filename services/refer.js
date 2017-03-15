@@ -3,6 +3,10 @@ moment.locale('zh-cn');
 module.exports = function (app) {
     // 提交bug
     app.post('/refer', function (req, res) {
+        if (!req.body.description || !req.body.browser || !req.body.level) {
+            res.send({status: 1, msg: '信息填写不完全'});
+            return;
+        }
         // 获取到bug model
         let Bug = global.dbHelper.getModel('bug');
         let dt = moment().format('LLL');
@@ -16,7 +20,7 @@ module.exports = function (app) {
             level: req.body.level,
             user: req.body.user,
             date: dtc,
-            date_text:dt,
+            date_text: dt,
             code: '' + dtc.getTime() + Math.ceil(Math.random() * 10000),
             handler: '',
             deleted: 0

@@ -7,6 +7,7 @@ module.exports = function (app) {
             res.send({status: '1', msg: '登录超时'});
             return;
         }
+        let total = 0;
         // 获取到bug model
         let bug = global.dbHelper.getModel('bug');
         // 接收参数
@@ -30,7 +31,16 @@ module.exports = function (app) {
         if (isSelf) {
             filter.user = req.body.user
         }
-        // 查询操作
+        //查询所有符合查询条件的数据
+        bug.find(filter, function (error, docs) {
+            if (docs) {
+                total = docs.length;
+            }
+            else if (error) {
+                return error
+            }
+        });
+        // 分页查询操作
         // option1:查询条件
         // option2:查询字段
         // option3:游标操作 skip为偏移量 limit限制返回结果数量 实现分页查询
@@ -40,13 +50,13 @@ module.exports = function (app) {
             limit: pageSize
         }, function (error, docs) {
             // 请求成功 返回查询结果
-            res.send({bugs: docs, status: '0'});
+            if (docs) {
+                res.send({pageIndex: pageIndex, pageSize: pageSize, total: total, bugs: docs, status: '0'});
+            }
+            else if (error) {
+                return error;
+            }
         });
-
-        //查询所有符合查询条件的数据
-        //bug.find(filter, function (error, docs) {
-        //    res.send({bugs: docs, status: '0'});
-        //})
     });
 
     // 处理bug

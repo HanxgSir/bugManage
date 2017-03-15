@@ -9,6 +9,7 @@ import Modal from 'antd/lib/modal';
 import message from 'antd/lib/message';
 import Select from 'antd/lib/select';
 import Input from 'antd/lib/input';
+import Pagination from 'antd/lib/pagination';
 
 import Nav from './nav'
 import './myBugs.css'
@@ -36,6 +37,7 @@ export default class MyBugs extends React.Component {
         this.selectLevel = this.selectLevel.bind(this);
         this.selectStatus = this.selectStatus.bind(this);
         this.search = this.search.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
     render() {
@@ -96,12 +98,21 @@ export default class MyBugs extends React.Component {
                     }.bind(this))}
                     </tbody>
                 </table>
+                <div className="pagination">
+                    <div style={{float: 'right'}}>
+                        <Pagination
+                            defaultCurrent={1} total={bugsStore.total}
+                            defaultPageSize={bugsStore.pageSize}
+                            onChange={this.onChange}
+                        />
+                    </div>
+                </div>
             </div>
         )
     }
 
     componentDidMount() {
-        this.queryData();
+        this.queryData(bugsStore.pageIndex,bugsStore.pageSize);
     }
 
     selectLevel(value) {
@@ -118,7 +129,7 @@ export default class MyBugs extends React.Component {
 
     // 查询
     search() {
-        this.queryData();
+        this.queryData(bugsStore.pageIndex,bugsStore.pageSize);
     }
 
     // 关闭
@@ -159,8 +170,16 @@ export default class MyBugs extends React.Component {
         })
     }
 
-    queryData() {
+    //分页器
+    onChange(pageNumber) {
+        console.log('pageNumber', pageNumber);
+        this.queryData(pageNumber, bugsStore.pageSize);
+    }
+
+    queryData(pageIndex,pageSize) {
         let params = {
+            pageIndex: pageIndex,
+            pageSize: pageSize,
             code: this.refs.code.refs.input.value,
             level: this.state.level,
             status: this.state.status,

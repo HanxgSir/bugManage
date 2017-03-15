@@ -23,7 +23,7 @@ class LoginComponent extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <div className="contentBox">
+            <div className="loginContentBox">
                 <div className="form_box">
                     <Form onSubmit={this.handleSubmit} className="login-form">
                         <FormItem>
