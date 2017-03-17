@@ -4,6 +4,7 @@
 
 import React from 'react';
 import { render } from 'react-dom';
+import { Link } from 'react-router'
 import {observer} from 'mobx-react';
 
 import Modal from 'antd/lib/modal';
@@ -84,6 +85,7 @@ export default class AllBugs extends React.Component {
 
                     {bugsStore.bugs.length > 0 ? bugsStore.bugs.map(function (bug, index) {
                         let complete = this.complete.bind(this, bug.code, index);
+                        let check = this.check.bind(this, bug._id, index);
                         return <tr key={"bug"+index}>
                             <td>{bug.code}</td>
                             <td>{bug.level}</td>
@@ -91,12 +93,15 @@ export default class AllBugs extends React.Component {
                             <td>{bug.user}</td>
                             <td>
                                 {bug.deleted == 0 ? '待处理' : bug.deleted == 1 ? '已被' + bug.handler + '处理' : '已关闭'}
-                            </td>
-                            <td>
                                 {
                                     bug.deleted == 0 ? <span onClick={complete} className="deal_btn">完成</span> :
-                                        <span>已修改</span>
+                                        null
                                 }
+                            </td>
+                            <td>
+                                <Link to={"/bugDetail/" + bug._id}>
+                                    <span onClick={check} className="check_btn">查看</span>
+                                </Link>
                             </td>
                         </tr>
                     }.bind(this)) : null}
@@ -138,6 +143,11 @@ export default class AllBugs extends React.Component {
     search() {
         bugsStore.pageIndex = 1;
         this.queryData(1, bugsStore.pageSize);
+    }
+
+    // 查看
+    check() {
+
     }
 
     // 完成

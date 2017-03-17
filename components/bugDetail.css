@@ -1,0 +1,6 @@
+.bug_content .bug_info b {
+    display: inline-block;
+    width: 125px;
+    height: 40px;
+    line-height: 40px;
+}

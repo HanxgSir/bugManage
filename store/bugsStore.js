@@ -6,10 +6,11 @@ import {observable, computed, reaction} from 'mobx';
 
 export default class BugsStore {
     @observable bugs = [];
+    @observable bug = {};
     @observable total = 0;
     @observable pageIndex = 1;
     @observable pageSize = 5;
-    // 获取所有bugs
+    // 查询所有bugs
     getBugs(url, params, method) {
         let that = this;
         //let formData = new FormData();
@@ -29,6 +30,21 @@ export default class BugsStore {
                 that.bugs = [];
                 that.total = 0;
                 that.pageIndex = 1;
+            }
+            return response.data;
+        }).catch(function (error) {
+            return error;
+        });
+    }
+
+    getBugDetail(url,method) {
+        let that = this;
+        return axios({
+            method: method,
+            url: url
+        }).then(function (response) {
+            if (response.data.status == 0) {
+                that.bug = response.data.bugDetail;
             }
             return response.data;
         }).catch(function (error) {

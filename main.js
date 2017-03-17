@@ -8,6 +8,7 @@ import 'jquery.cookie';
 import AllBugs from './components/allBugs';
 import Refer from './components/refer';
 import MyBugs from './components/myBugs';
+import BugDetail from './components/bugDetail';
 import Login from './components/login';
 import Register from './components/register';
 
@@ -51,6 +52,7 @@ render((
             <IndexRoute component={AllBugs}/>
             <Route path="refer" component={Refer}/>
             <Route path="myBugs" component={MyBugs}/>
+            <Route path="bugDetail/:id" component={BugDetail}/>
         </Route>
         <Route path="/login" component={Login}/>
         <Route path="register" component={Register}/>

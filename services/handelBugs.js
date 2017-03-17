@@ -17,7 +17,7 @@ function middleware(req, res, next) {
 }
 module.exports = function (app) {
     app.use(middleware);
-    // 查询bugs
+    // 查询所有bugs
     app.post('/getBugs', function (req, res) {
         let total = 0;
         // 获取到bug model
@@ -69,6 +69,20 @@ module.exports = function (app) {
                 return error;
             }
         });
+    });
+
+    // 查询bug详情
+    app.get('/getBugDetail/:id', function (req, res) {
+        let id = req.params.id;
+        let bug = global.dbHelper.getModel('bug');
+        bug.findOne({_id: id}, function (error, docs) {
+            if (docs) {
+                res.send({bugDetail: docs, status: '0'})
+            }
+            else if (error) {
+                return error;
+            }
+        })
     });
 
     // 处理bug
