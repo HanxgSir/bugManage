@@ -16,8 +16,8 @@ module.exports = function (app) {
             else {
                 // 登录成功 设置全局变量username 设置cookie并加密
                 global.username = name;
-                res.cookie('username', name, {maxAge: 14 * 24 * 60 * 60 * 1000});
-                res.cookie('hasLogin', crypto.encrypt('bug login is true', 'this is test crypto'), {maxAge: 14 * 24 * 60 * 60 * 1000});
+                res.cookie('username', name, {maxAge: 24 * 60 * 60 * 1000});
+                res.cookie('hasLogin', crypto.encrypt('bug login is true', 'this is test crypto'), {maxAge: 24 * 60 * 60 * 1000});
                 res.send({status: 0, username: name, msg: "登录成功"});
             }
         });

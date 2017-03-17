@@ -14,15 +14,23 @@ export default class BugsStore {
         let that = this;
         //let formData = new FormData();
         //Object.keys(params).forEach(key => formData.append(key, params[key]));
-        axios({
+        return axios({
             method: method,
             url: url,
             data: params
         }).then(function (response) {
-            that.bugs = response.data.bugs;
-            that.total = response.data.total;
-            that.pageIndex = response.data.pageIndex;
-            that.pageSize = response.data.pageSize;
+            if (response.data.status == 0) {
+                that.bugs = response.data.bugs;
+                that.total = response.data.total;
+                that.pageIndex = response.data.pageIndex;
+                that.pageSize = response.data.pageSize;
+            }
+            else {
+                that.bugs = [];
+                that.total = 0;
+                that.pageIndex = 1;
+            }
+            return response.data;
         }).catch(function (error) {
             return error;
         });
@@ -49,7 +57,7 @@ export default class BugsStore {
     // 关闭bug
     closeBug(url, params, method) {
         let that = this;
-        axios({
+        return axios({
             method: method,
             url: url,
             data: params
@@ -58,6 +66,7 @@ export default class BugsStore {
             if (response.data.status == 0) {
                 that.bugs[params.index].deleted = response.data.deleted;
             }
+            return response.data;
         }).catch(function (error) {
             return error;
         });
@@ -66,7 +75,7 @@ export default class BugsStore {
     // 删除bug
     deleteBug(url, params, method) {
         let that = this;
-        axios({
+        return axios({
             method: method,
             url: url,
             data: params
@@ -74,6 +83,7 @@ export default class BugsStore {
             if (response.data.status == 0) {
                 that.bugs.splice(params.index, 1);
             }
+            return response.data;
         }).catch(function (error) {
             return error;
         });

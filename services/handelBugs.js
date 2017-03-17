@@ -1,12 +1,24 @@
 var crypto = require('./crypto');
+function middleware(req, res, next) {
+    // 检测是否登录 解密cookie hasLogin字段 如未登录则跳转到登录界面（未加）
+    if (!req.cookies.hasLogin) {
+        res.send({status: '1', msg: '登录超时,请重新登录'});
+        return;
+    }
+    if (crypto.decrypt(req.cookies.hasLogin, 'this is test crypto') != 'bug login is true') {
+        res.send({status: '1', msg: '没有权限'});
+        return;
+    }
+    if (!global.username) {
+        res.send({status: '1', msg: '服务器错误'});
+        return;
+    }
+    next();
+}
 module.exports = function (app) {
+    app.use(middleware);
     // 查询bugs
     app.post('/getBugs', function (req, res) {
-        // 检测是否登录 解密cookie hasLogin字段 如未登录则跳转到登录界面（未加）
-        if (crypto.decrypt(req.cookies.hasLogin, 'this is test crypto') != 'bug login is true') {
-            res.send({status: '1', msg: '登录超时'});
-            return;
-        }
         let total = 0;
         // 获取到bug model
         let bug = global.dbHelper.getModel('bug');
