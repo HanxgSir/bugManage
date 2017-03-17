@@ -151,6 +151,7 @@ export default class AllBugs extends React.Component {
             content: '是否确认该问题已修改',
             onOk() {
                 bugsStore.completeBug('/completeBug', params, 'POST').then(function (data) {
+                    console.log(data);
                     if (data.status == 0) {
                         message.success(
                             <div style={messageCodeStyle}>
@@ -176,6 +177,8 @@ export default class AllBugs extends React.Component {
             pageIndex: pageIndex,
             pageSize: pageSize
         };
-        bugsStore.getBugs('/getBugs', params, 'POST');
+        bugsStore.getBugs('/getBugs', params, 'POST').then(function (data) {
+            console.log(data);
+        });
     }
 }

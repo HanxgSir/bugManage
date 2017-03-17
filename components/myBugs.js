@@ -112,7 +112,7 @@ export default class MyBugs extends React.Component {
     }
 
     componentDidMount() {
-        this.queryData(bugsStore.pageIndex,bugsStore.pageSize);
+        this.queryData(bugsStore.pageIndex, bugsStore.pageSize);
     }
 
     selectLevel(value) {
@@ -129,7 +129,7 @@ export default class MyBugs extends React.Component {
 
     // 查询
     search() {
-        this.queryData(bugsStore.pageIndex,bugsStore.pageSize);
+        this.queryData(bugsStore.pageIndex, bugsStore.pageSize);
     }
 
     // 关闭
@@ -139,7 +139,9 @@ export default class MyBugs extends React.Component {
             title: "关闭bug",
             content: '是否确认关闭该问题',
             onOk(){
-                bugsStore.closeBug('/closeBug', {code: code, index: index}, 'POST');
+                bugsStore.closeBug('/closeBug', {code: code, index: index}, 'POST').then(function (data) {
+                    console.log(data);
+                });
             }
         })
     }
@@ -151,7 +153,9 @@ export default class MyBugs extends React.Component {
             title: "删除bug",
             content: '是否确认删除该问题',
             onOk(){
-                bugsStore.deleteBug('/deleteBug', {code: code, index: index}, 'POST');
+                bugsStore.deleteBug('/deleteBug', {code: code, index: index}, 'POST').then(function (data) {
+                    console.log(data);
+                });
                 //$.post('/deleteBug', {code: code}, function (data) {
                 //    if (data.status == 0) {
                 //        let bugs = that.state.bugs;
@@ -176,7 +180,7 @@ export default class MyBugs extends React.Component {
         this.queryData(pageNumber, bugsStore.pageSize);
     }
 
-    queryData(pageIndex,pageSize) {
+    queryData(pageIndex, pageSize) {
         let params = {
             pageIndex: pageIndex,
             pageSize: pageSize,
@@ -186,6 +190,8 @@ export default class MyBugs extends React.Component {
             isSelf: true,
             user: localStorage.username
         };
-        bugsStore.getBugs('/getBugs', params, 'POST');
+        bugsStore.getBugs('/getBugs', params, 'POST').then(function (data) {
+            console.log(data);
+        });
     }
 }
