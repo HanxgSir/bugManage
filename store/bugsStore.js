@@ -2,15 +2,17 @@
 import FormData from 'form-data';
 import axios from 'axios';
 import Promise from 'es6-promise';
-import {observable, computed, reaction} from 'mobx';
+import {observable, computed, reaction,action} from 'mobx';
 
 export default class BugsStore {
     @observable bugs = [];
     @observable bug = {};
+    @observable bugFiles = [];
     @observable total = 0;
     @observable pageIndex = 1;
     @observable pageSize = 5;
     // 查询所有bugs
+    @action
     getBugs(url, params, method) {
         let that = this;
         //let formData = new FormData();
@@ -37,14 +39,18 @@ export default class BugsStore {
         });
     }
 
-    getBugDetail(url,method) {
+    // 查询bug详情
+    @action
+    getBugDetail(url, method) {
         let that = this;
         return axios({
             method: method,
             url: url
         }).then(function (response) {
             if (response.data.status == 0) {
+                let _bug = response.data.bugDetail;
                 that.bug = response.data.bugDetail;
+                console.log('storeBug==',_bug)
             }
             return response.data;
         }).catch(function (error) {
