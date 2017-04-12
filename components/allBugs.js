@@ -70,7 +70,7 @@ export default class AllBugs extends React.Component {
                     </label>
                     <button className="search_btn" onClick={this.search}>查询</button>
                 </div>
-                <table>
+                <table className="allBugsTable">
                     <thead>
                     <tr>
                         <th>编号</th>
@@ -97,12 +97,11 @@ export default class AllBugs extends React.Component {
                             <td>
                                 <Link to={"/bugDetail/" + bug._id}>
                                     <span onClick={check} className="check_btn">查看</span>
-                                    {
-                                        bug.deleted == 0 ? <span onClick={complete} className="deal_btn">完成</span> :
-                                            null
-                                    }
-
                                 </Link>
+                                {
+                                    bug.deleted == 0 ? <span onClick={complete} className="deal_btn">完成</span> :
+                                        null
+                                }
                             </td>
                         </tr>
                     }.bind(this)) : null}

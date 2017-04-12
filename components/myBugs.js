@@ -4,6 +4,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import {observer} from 'mobx-react';
+import { Link } from 'react-router'
 
 import Modal from 'antd/lib/modal';
 import message from 'antd/lib/message';
@@ -68,7 +69,7 @@ export default class MyBugs extends React.Component {
                     </label>
                     <button className="search_btn" onClick={this.search}>查询</button>
                 </div>
-                <table>
+                <table className="myBugsTable">
                     <thead>
                     <tr>
                         <th>编号</th>
@@ -90,6 +91,9 @@ export default class MyBugs extends React.Component {
                                 {bug.deleted == 0 ? '待处理' : bug.deleted == 1 ? '已处理' : '已关闭'}
                             </td>
                             <td>
+                                <Link to={"/bugDetail/" + bug._id}>
+                                    <span className="check_btn">查看</span>
+                                </Link>
                                 {bug.deleted < 2 ? <span className="close_btn" onClick={close}>关闭</span> :
                                     <span className="close_btn" onClick={delete_bug}>删除</span>}
 

@@ -14,6 +14,7 @@ export default class BugDetail extends React.Component {
     constructor(props) {
         super(props);
         this.queryData = this.queryData.bind(this);
+        this.renderHandleText = this.renderHandleText.bind(this);
     }
 
     render() {
@@ -51,7 +52,7 @@ export default class BugDetail extends React.Component {
                         <span>{bugsStore.bug.browser}</span>
                     </div>
                     <div className="bug_info">
-                        <b>提交时间：</b>
+                        <b>{this.renderHandleText()}</b>
                         <span>{bugsStore.bug.date_text}</span>
                     </div>
                     <div className="bug_info">
@@ -69,6 +70,18 @@ export default class BugDetail extends React.Component {
 
     componentDidMount() {
         this.queryData();
+    }
+
+    renderHandleText() {
+        if (bugsStore.bug.deleted == 0) {
+            return "提交时间："
+        }
+        else if (bugsStore.bug.deleted == 1) {
+            return "完成时间："
+        }
+        else if (bugsStore.bug.deleted == 2) {
+            return "关闭时间："
+        }
     }
 
     queryData() {

@@ -19,33 +19,33 @@
     color: #fff;
 }
 
-table {
+.allBugsTable {
     width: 980px;
     margin: 0 auto 20px auto;
 }
 
-table thead tr th {
+.allBugsTable thead tr th {
     width: 150px;
     height: 40px;
     border: 1px solid #ccc;
 }
 
-table thead tr th:nth-child(3) {
+.allBugsTable thead tr th:nth-child(3) {
     width: auto;
 }
 
-table tbody tr td {
+.allBugsTable tbody tr td {
     height: 40px;
     text-align: center;
     border: 1px solid #ccc;
 }
 
-table tbody tr td:nth-child(3) {
+.allBugsTable tbody tr td:nth-child(3) {
     padding-left: 10px;
     text-align: left;
 }
 
-table tbody tr td:last-child {
+.allBugsTable tbody tr td:last-child {
     text-align: left;
 }
 
