@@ -1,4 +1,3 @@
-
 module.exports = function (app) {
     app.route('/')
         .get(function (req, res) {
@@ -8,4 +7,5 @@ module.exports = function (app) {
     require('./login')(app);
     require('./handelBugs')(app);
     require('./refer')(app);
+    require('./upload')(app);
 };

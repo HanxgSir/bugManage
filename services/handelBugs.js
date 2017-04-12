@@ -77,7 +77,9 @@ module.exports = function (app) {
         let bug = global.dbHelper.getModel('bug');
         bug.findOne({_id: id}, function (error, docs) {
             if (docs) {
-                res.send({bugDetail: docs, status: '0'})
+                console.log(docs);
+                let bug = docs;
+                res.send({bugDetail: bug, status: '0'})
             }
             else if (error) {
                 return error;

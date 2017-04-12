@@ -18,6 +18,7 @@ module.exports = function (app) {
                 description: req.body.description,
                 browser: req.body.browser,
                 level: req.body.level,
+                files: req.body.files || null,
                 user: req.body.user,
                 date: dtc,
                 date_text: dt,
