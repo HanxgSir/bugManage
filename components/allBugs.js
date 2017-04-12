@@ -93,14 +93,15 @@ export default class AllBugs extends React.Component {
                             <td>{bug.user}</td>
                             <td>
                                 {bug.deleted == 0 ? '待处理' : bug.deleted == 1 ? '已被' + bug.handler + '处理' : '已关闭'}
-                                {
-                                    bug.deleted == 0 ? <span onClick={complete} className="deal_btn">完成</span> :
-                                        null
-                                }
                             </td>
                             <td>
                                 <Link to={"/bugDetail/" + bug._id}>
                                     <span onClick={check} className="check_btn">查看</span>
+                                    {
+                                        bug.deleted == 0 ? <span onClick={complete} className="deal_btn">完成</span> :
+                                            null
+                                    }
+
                                 </Link>
                             </td>
                         </tr>

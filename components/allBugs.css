@@ -45,22 +45,26 @@ table tbody tr td:nth-child(3) {
     text-align: left;
 }
 
+table tbody tr td:last-child {
+    text-align: left;
+}
+
 .deal_btn, .check_btn {
     display: inline-block;
     width: 36px;
     height: 25px;
-    margin-left: 15px;
+    margin: 0 25px;
     text-align: center;
     line-height: 25px;
     border-radius: 5px;
     color: #fff;
     cursor: pointer;
-    background: #108ee9;
+    background: #ff8128;
 }
 
-.check_btn {
+.deal_btn {
+    background: #108ee9;
     margin-left: 0;
-    background: #ff8128;
 }
 
 .left_bar {

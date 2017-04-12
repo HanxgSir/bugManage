@@ -8,7 +8,6 @@ const mongoose = require('mongoose');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const multer = require('multer');
 const session = require('express-session');
 const moment = require('moment');
 moment.locale('zh-cn');

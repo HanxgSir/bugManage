@@ -6,6 +6,7 @@ import BugsStore from '../store/bugsStore';
 const bugsStore = new BugsStore();
 
 import Nav from './nav';
+import UploadBox from './upload';
 import './bugDetail.css'
 
 @observer
@@ -16,6 +17,7 @@ export default class BugDetail extends React.Component {
     }
 
     render() {
+        let handlerStyle = bugsStore.bug.handler == "" ? {display: "none"} : {display: "block"};
         return (
             <div className="contentBox">
                 <Nav />
@@ -28,9 +30,13 @@ export default class BugDetail extends React.Component {
                         <b>Bug状态：</b>
                     <span>
                         {bugsStore.bug.deleted == 0 ?
-                            '待处理' : bugsStore.bug.deleted == 1 ? '已被' + bugsStore.bug.handler + '处理' :
+                            '待处理' : bugsStore.bug.deleted == 1 ? '已处理' :
                             '已关闭'}
                     </span>
+                    </div>
+                    <div className="bug_info" style={handlerStyle}>
+                        <b>操作人：</b>
+                        <span>{bugsStore.bug.handler}</span>
                     </div>
                     <div className="bug_info">
                         <b>Bug级别：</b>
@@ -48,6 +54,13 @@ export default class BugDetail extends React.Component {
                         <b>提交时间：</b>
                         <span>{bugsStore.bug.date_text}</span>
                     </div>
+                    <div className="bug_info">
+                        <b>相关图片：</b>
+                        <UploadBox
+                            ref="showFiles"
+                            fileList={bugsStore.bug.files}
+                        />
+                    </div>
                 </div>
             </div>
         )
@@ -59,9 +72,12 @@ export default class BugDetail extends React.Component {
     }
 
     queryData() {
-        //console.log(this.props.params.id);
+        let that = this;
         bugsStore.getBugDetail('/getBugDetail/' + this.props.params.id, 'GET').then(function (data) {
             console.log(data);
+        }).then(function () {
+            // 手动调用上传图片组件的方法更新state
+            that.refs.showFiles.setFiles(bugsStore.bug.files)
         })
     }
 }

@@ -4,16 +4,14 @@ import {Link} from 'react-router';
 
 import Menu from 'antd/lib/menu';
 
+import NavStore from '../store/navStore';
+const navStore = new NavStore();
+
 export default class Nav extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            current: 'mail'
-        };
         this.handleClick = (e) => {
-            this.setState({
-                current: e.key
-            });
+            navStore.navClick(e.key);
             this.logout = this.logout.bind(this);
         };
     }
@@ -44,16 +42,16 @@ export default class Nav extends React.Component {
                     <Menu
                         theme="dark"
                         onClick={this.handleClick}
-                        selectedKeys={[this.state.current]}
+                        selectedKeys={[navStore.current]}
                         mode="horizontal"
                     >
-                        <Menu.Item key="all_bugs">
+                        <Menu.Item key="allBugs">
                             <Link to="/">所有问题</Link>
                         </Menu.Item>
-                        <Menu.Item key="my_commit">
+                        <Menu.Item key="myCommit">
                             <Link to="myBugs">我提交的</Link>
                         </Menu.Item>
-                        <Menu.Item key="commit_bug">
+                        <Menu.Item key="commitBug">
                             <Link to="refer">提交问题</Link>
                         </Menu.Item>
                     </Menu>

@@ -3,12 +3,15 @@
  */
 import React from 'react';
 import ReactDom,{ render } from 'react-dom';
+import {observer} from 'mobx-react';
 
 import Modal from 'antd/lib/modal';
 import message from 'antd/lib/message';
 import Select from 'antd/lib/select';
 import Input from 'antd/lib/input';
+
 import Nav from './nav'
+import UploadBox from './upload'
 
 import BugsStore from '../store/bugsStore';
 import './refer.css';
@@ -23,6 +26,7 @@ const messageCodeStyle = {
     fontWeight: 'bold'
 };
 
+@observer
 export default class Refer extends React.Component {
     constructor(props) {
         super(props);
@@ -38,16 +42,16 @@ export default class Refer extends React.Component {
             <div className="contentBox">
                 <Nav />
                 <div className="bug">
-                    <label>
-                        <span> 问题描述：</span>
+                    <label className="bug_item">
+                        <span className="item_title"> 问题描述：</span>
                         <textarea rows="10" ref="description"/>
                     </label>
-                    <label>
-                        <span>测试用浏览器：</span>
+                    <label className="bug_item">
+                        <span className="item_title">测试用浏览器：</span>
                         <Input style={{width:"165px"}} ref="browser"/>
                     </label>
-                    <label>
-                        <span>问题级别：</span>
+                    <label className="bug_item">
+                        <span className="item_title">问题级别：</span>
                         <Select style={{width:"120px"}} defaultValue={"0"} ref="level" onChange={this.selectLevel}
                                 onFocus={()=>{}}>
                             <Option value={"0"}>请选择</Option>
@@ -56,6 +60,10 @@ export default class Refer extends React.Component {
                             <Option value={"3"}>三&emsp;级</Option>
                         </Select>
                     </label>
+                    <label className="bug_item">
+                        <span className="item_title">上传图片：</span>
+                    </label>
+                    <UploadBox ref="upload"/>
                     <button className="submit_btn" onClick={this.submit_bugs}>提交</button>
                 </div>
             </div>
@@ -104,7 +112,8 @@ export default class Refer extends React.Component {
             description: this.refs.description.value,
             browser: this.refs.browser.refs.input.value,
             level: this.state.level,
-            user: localStorage.username
+            user: localStorage.username,
+            files: this.refs.upload.state.fileList
         };
         Modal.confirm({
             title: "提交bug",

@@ -7,7 +7,7 @@
     margin: 15px 0;
 }
 
-.bug label span {
+.bug .bug_item .item_title {
     display: inline-block;
     width: 90px;
     text-align: right;
@@ -28,7 +28,7 @@ textarea {
     outline: none;
     border-radius: 10px;
     color: #fff;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .left_bar {
@@ -49,4 +49,23 @@ textarea {
 
 .tabBar_item:last-child {
     border: none;
+}
+
+.bug .ant-upload {
+    text-align: center;
+}
+
+.clearfix {
+    margin-left: 90px;
+}
+
+.ant-upload-select-picture-card i {
+    font-size: 28px;
+    color: #999;
+}
+
+.ant-upload-select-picture-card .ant-upload-text {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #666;
 }
