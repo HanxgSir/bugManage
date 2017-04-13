@@ -4,7 +4,7 @@ var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 
 module.exports = {
     entry: {
-        'main':['./main.js']
+        'main': ['./main.js']
     },
     output: {
         path: path.resolve(__dirname, 'public/static'),
@@ -17,6 +17,16 @@ module.exports = {
             jQuery: "jquery",
             $: "jquery"
         })
+        //new webpack.DefinePlugin({
+        //    'process.env': {
+        //        NODE_ENV: JSON.stringify('production')
+        //    }
+        //}),
+        //new webpack.optimize.UglifyJsPlugin({
+        //    compress: {
+        //        warnings: false
+        //    }
+        //})
     ],
     module: {
         loaders: [
