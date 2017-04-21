@@ -2,7 +2,10 @@
  * Created by Administrator on 2017/2/23.
  */
 import React from 'react';
-import { render } from 'react-dom';
+import {render} from 'react-dom';
+import {browserHistory} from "react-router";
+import Modal from "antd/lib/modal";
+import notification from "antd/lib/notification";
 import Form from 'antd/lib/form';
 import Icon from 'antd/lib/icon';
 import Input from 'antd/lib/input';
@@ -28,10 +31,28 @@ class RegisterComponent extends React.Component {
         this.handleSubmit = (e) => {
             e.preventDefault();
             this.props.form.validateFieldsAndScroll((err, values) => {
+                let that = this;
                 if (!err) {
                     console.log('注册信息: ', values);
                     $.post('/register', values, function (data) {
                         console.log(data);
+                        if (data.status === 0) {
+                            // 注册成功
+                            Modal.success({
+                                title: "注册成功",
+                                content: "已成功注册新用户，点我去登陆",
+                                onOk(){
+                                    // 利用 js 跳转
+                                    that.props.router.push('/login')
+                                }
+                            })
+                        }
+                        else {
+                            notification.error({
+                                message: "注册失败",
+                                description: data.msg
+                            });
+                        }
                     })
                 }
             });
@@ -59,7 +80,7 @@ class RegisterComponent extends React.Component {
     }
 
     render() {
-        const { getFieldDecorator } = this.props.form;
+        const {getFieldDecorator} = this.props.form;
         const formItemLayout = {
             labelCol: {span: 6},
             wrapperCol: {span: 14}
@@ -129,13 +150,13 @@ class RegisterComponent extends React.Component {
                         <FormItem
                             {...formItemLayout}
                             label={(
-            <span>
+                                <span>
               昵称
               <Tooltip title="你想让别人怎么称呼你？">
-                <Icon type="question-circle-o" />
+                <Icon type="question-circle-o"/>
               </Tooltip>
             </span>
-          )}
+                            )}
                             hasFeedback
                         >
                             {getFieldDecorator('nickname', {
