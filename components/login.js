@@ -2,14 +2,15 @@
  * Created by Administrator on 2017/2/21.
  */
 import React from 'react';
-import { render } from 'react-dom';
-import { Link } from 'react-router'
+import {render} from 'react-dom';
+import {Link} from 'react-router'
 
 import Form from 'antd/lib/form';
 import Icon from 'antd/lib/icon';
 import Input from 'antd/lib/input';
 import Button from 'antd/lib/button';
 import Checkbox  from 'antd/lib/checkbox';
+import notification from 'antd/lib/notification';
 
 import './login.css';
 
@@ -21,7 +22,7 @@ class LoginComponent extends React.Component {
     }
 
     render() {
-        const { getFieldDecorator } = this.props.form;
+        const {getFieldDecorator} = this.props.form;
         return (
             <div className="loginContentBox">
                 <div className="form_box">
@@ -30,14 +31,14 @@ class LoginComponent extends React.Component {
                             {getFieldDecorator('username', {
                                 rules: [{required: true, message: '请输入用户名！'}]
                             })(
-                                <Input addonBefore={<Icon type="user" />} placeholder="用户名"/>
+                                <Input addonBefore={<Icon type="user"/>} placeholder="用户名"/>
                             )}
                         </FormItem>
                         <FormItem>
                             {getFieldDecorator('password', {
                                 rules: [{required: true, message: '请输入密码！'}]
                             })(
-                                <Input addonBefore={<Icon type="lock" />} type="password" placeholder="密码"/>
+                                <Input addonBefore={<Icon type="lock"/>} type="password" placeholder="密码"/>
                             )}
                         </FormItem>
                         <FormItem>
@@ -51,7 +52,7 @@ class LoginComponent extends React.Component {
                             <Button type="primary" htmlType="submit" className="login-form-button">
                                 登录
                             </Button>
-                            没有帐号？ <Link to="register" >快来注册吧!</Link>
+                            没有帐号？ <Link to="register">快来注册吧!</Link>
                         </FormItem>
                     </Form>
                 </div>
@@ -78,6 +79,10 @@ class LoginComponent extends React.Component {
                         })
                     }
                     else {
+                        notification.error({
+                            message:"登录失败",
+                            description:data.msg
+                        });
                         console.log(data);
                     }
                 }.bind(this))
